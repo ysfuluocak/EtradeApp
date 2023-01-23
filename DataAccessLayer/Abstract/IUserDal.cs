@@ -1,6 +1,5 @@
 ﻿using Core.DataAccessLayer.Abstract;
-using Entities.Concrete;
-using Entities.Dtos;
+using Core.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface IProductDal : IEntityRepositoryBase<Product>
+    public interface IUserDal : IEntityRepositoryBase<User>
     {
-        List<ProductDetailsDto> GetProductDetailsDtos();
+        List<OperationClaim> GetOperationClaims(User user);
     }
 }

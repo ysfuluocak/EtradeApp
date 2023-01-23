@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Concrete.EntityFramework;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete.EntityFramework;
@@ -27,6 +28,12 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<CartItemManager>().As<ICartItemService>().SingleInstance();
             builder.RegisterType<EfCartItemDal>().As<ICartItemDal>().SingleInstance();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
         }
     }
 }
