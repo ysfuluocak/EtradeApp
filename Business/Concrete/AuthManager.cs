@@ -17,12 +17,13 @@ namespace Business.Concrete
     {
         IUserService _userService;
         ITokenHelper _tokenHelper;
+        IUserOperationClaimService _userOperationClaimService;
 
-        public AuthManager(IUserService userService,ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService,ITokenHelper tokenHelper, IUserOperationClaimService userOperationClaimService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
-
+            _userOperationClaimService = userOperationClaimService;
         }
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
@@ -59,6 +60,12 @@ namespace Business.Concrete
                 IsStatus = true
             };
             _userService.Add(user);
+            var userOperationClaim = new UserOperationClaim
+            {
+                UserId = user.Id,
+                OperationClaimId = 2
+            };
+            _userOperationClaimService.Add(userOperationClaim);
             return new SuccessDataResult<User>("Kayıt Başarılı");
 
         }
