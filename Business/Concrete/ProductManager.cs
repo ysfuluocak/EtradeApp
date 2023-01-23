@@ -2,6 +2,7 @@
 using Core.Utilities.Results;
 using DataAccessLayer.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,11 @@ namespace Business.Concrete
         public IDataResult<Product> GetById(int id)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.Id == id));
+        }
+
+        public IDataResult<List<ProductDetailsDto>> GetDetails()
+        {
+            return new SuccessDataResult<List<ProductDetailsDto>>(_productDal.GetProductDetailsDtos());
         }
 
         public IResult Update(Product product)
