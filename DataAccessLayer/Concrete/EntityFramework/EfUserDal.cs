@@ -19,7 +19,7 @@ namespace DataAccessLayer.Concrete.EntityFramework
                 var result = from uop in context.Set<UserOperationClaim>()
                              join op in context.OperationClaims
                              on uop.OperationClaimId equals op.Id
-                             where uop.Id == user.Id
+                             where uop.UserId == user.Id
                              select op;
                 return result.ToList();
                          

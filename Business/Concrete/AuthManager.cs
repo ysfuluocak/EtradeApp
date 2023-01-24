@@ -18,7 +18,7 @@ namespace Business.Concrete
         IUserService _userService;
         ITokenHelper _tokenHelper;
 
-        public AuthManager(IUserService userService,ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
@@ -28,26 +28,24 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user);
             var token = _tokenHelper.CreateAccessToken(user, claims.Data);
-            return new SuccessDataResult<AccessToken>(token,"Token Oluşturuldu.");
+            return new SuccessDataResult<AccessToken>(token, "Token Oluşturuldu.");
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
-            BusinessRules.Run(UserExists(userForLoginDto.Email));
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password,userToCheck.Data.PasswordSalt,userToCheck.Data.PasswordHash))
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordSalt, userToCheck.Data.PasswordHash))
             {
                 return new ErrorDataResult<User>("Şifre Hatalı");
             }
-            return new SuccessDataResult<User>(userToCheck.Data,"Giriş Başarılı");
+            return new SuccessDataResult<User>(userToCheck.Data, "Giriş Başarılı");
 
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
         {
             byte[] passwordSalt, passwordHash;
-            BusinessRules.Run(UserExists(userForRegisterDto.Email));
-            HashingHelper.CreatePasshordHash(userForRegisterDto.Password,out passwordSalt,out passwordHash);
+            HashingHelper.CreatePasshordHash(userForRegisterDto.Password, out passwordSalt, out passwordHash);
             var user = new User
             {
                 FirstName = userForRegisterDto.FirstName,
@@ -55,20 +53,25 @@ namespace Business.Concrete
                 Email = userForRegisterDto.Email,
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
-                IsStatus = true
+                IsStatus = true,
+                Users = new HashSet<UserOperationClaim>()
+                {
+                   new() {OperationClaimId=2}
+
+                }
             };
             _userService.Add(user);
             return new SuccessDataResult<User>("Kayıt Başarılı");
 
         }
 
-        public IResult UserExists(string mail)
-        {      
-            if (_userService.GetByMail(mail) == null)
+        public IResult UserExists(string email)
+        {
+            if (_userService.GetByMail(email).Data != null)
             {
-                return new ErrorResult("Kullanıcı kayıtlı değil");
+                return new ErrorResult("Kullanıcı mevcut");
             }
-            return new SuccessResult("Kullanıcı mevcut");
+            return new SuccessResult();
         }
     }
 }

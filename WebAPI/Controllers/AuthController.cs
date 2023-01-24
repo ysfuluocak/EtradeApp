@@ -19,6 +19,12 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public IActionResult Register(UserForRegisterDto userForRegisterDto)
         {
+            var userToCheck = _authService.UserExists(userForRegisterDto.Email);
+            if (!userToCheck.Success)
+            {
+                return BadRequest(userToCheck.Message);
+            }
+
             var result = _authService.Register(userForRegisterDto);
             if (result.Success)
             {
@@ -30,6 +36,12 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public IActionResult Login(UserForLoginDto userForLoginDto)
         {
+            var userToCheck = _authService.UserExists(userForLoginDto.Email);
+            if (!userToCheck.Success)
+            {
+                return BadRequest(userToCheck.Message);
+            }
+
             var userToLogin = _authService.Login(userForLoginDto);
             if (!userToLogin.Success)
             {

@@ -9,6 +9,10 @@ namespace Core.Entities.Concrete
 {
     public class User : IEntity
     {
+        public User()
+        {
+            Users = new HashSet<UserOperationClaim>();
+        }
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,6 +20,6 @@ namespace Core.Entities.Concrete
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
         public bool IsStatus { get; set; }
-        public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set;}
+        public virtual ICollection<UserOperationClaim> Users { get; set;}
     }
 }
