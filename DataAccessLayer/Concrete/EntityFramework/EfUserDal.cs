@@ -14,15 +14,16 @@ namespace DataAccessLayer.Concrete.EntityFramework
     {
         public List<OperationClaim> GetOperationClaims(User user)
         {
-            using (var context = new EtradeContext())
-            {
-                var result = from userOperationClaims in context.UserOperationClaims
-                             join claims in context.OperationClaims
-                             on userOperationClaims.OperationClaimId equals claims.Id
-                             where userOperationClaims.Id == user.Id
-                             select claims;
-                return result.ToList();
-            }
+            //using (var context = new EtradeContext())
+            //{
+            //    var result = from userOperationClaims in context.UserOperationClaims
+            //                 join claims in context.OperationClaims
+            //                 on userOperationClaims.OperationClaimId equals claims.Id
+            //                 where userOperationClaims.Id == user.Id
+            //                 select claims;
+            //    return result.ToList();
+            //}
+            return null;
         }
 
     }

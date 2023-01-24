@@ -12,7 +12,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CartValidator()
         {
-            RuleFor(c=>c.CartItemId).NotEmpty();
+            RuleFor(c=>c.CreatedAt).NotEmpty();
         }
     }
 }

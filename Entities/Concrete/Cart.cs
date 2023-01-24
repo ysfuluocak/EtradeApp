@@ -9,8 +9,11 @@ namespace Entities.Concrete
 {
     public class Cart : IEntity
     {
-        public int Id { get; set; }
-        public int CartItemId { get; set; }
+        public int CartId { get; set; }
+        public decimal TotalPrice { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
+
 
     }
 }
