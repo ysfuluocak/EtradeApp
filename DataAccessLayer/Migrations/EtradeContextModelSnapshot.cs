@@ -187,13 +187,13 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("Core.Entities.Concrete.UserOperationClaim", b =>
                 {
                     b.HasOne("Core.Entities.Concrete.OperationClaim", "OperationClaim")
-                        .WithMany("Claims")
+                        .WithMany("Users")
                         .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Concrete.User", "User")
-                        .WithMany("Users")
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -235,12 +235,12 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Core.Entities.Concrete.OperationClaim", b =>
                 {
-                    b.Navigation("Claims");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Core.Entities.Concrete.User", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Claims");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Cart", b =>

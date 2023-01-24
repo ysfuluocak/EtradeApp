@@ -11,10 +11,10 @@ namespace Core.Entities.Concrete
     {
         public OperationClaim()
         {
-            Claims = new HashSet<UserOperationClaim>();
+            Users = new HashSet<UserOperationClaim>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<UserOperationClaim> Claims { get; set; }
+        public virtual ICollection<UserOperationClaim> Users { get; set; }
     }
 }

@@ -1,15 +1,9 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
-using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.Jwt;
 using Entities.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -54,10 +48,9 @@ namespace Business.Concrete
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
                 IsStatus = true,
-                Users = new HashSet<UserOperationClaim>()
+                Claims = new HashSet<UserOperationClaim>()
                 {
-                   new() {OperationClaimId=2}
-
+                    new() {OperationClaimId = 2}
                 }
             };
             _userService.Add(user);
@@ -71,7 +64,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult("Kullanıcı mevcut");
             }
-            return new SuccessResult();
+            return new SuccessResult("Kayıtlı kullancı bulunamadı!");
         }
     }
 }

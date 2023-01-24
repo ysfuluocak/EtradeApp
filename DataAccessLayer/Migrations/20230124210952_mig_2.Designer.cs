@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(EtradeContext))]
-    [Migration("20230124155559_mig_1")]
-    partial class mig_1
+    [Migration("20230124210952_mig_2")]
+    partial class mig_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,20 +79,15 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Core.Entities.Concrete.UserOperationClaim", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("OperationClaimId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id", "UserId", "OperationClaimId");
+                    b.HasKey("UserId", "OperationClaimId");
 
                     b.HasIndex("OperationClaimId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserOperationClaim");
                 });
@@ -194,13 +189,13 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("Core.Entities.Concrete.UserOperationClaim", b =>
                 {
                     b.HasOne("Core.Entities.Concrete.OperationClaim", "OperationClaim")
-                        .WithMany("UserOperationClaims")
+                        .WithMany("Users")
                         .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Concrete.User", "User")
-                        .WithMany("UserOperationClaims")
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -242,12 +237,12 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Core.Entities.Concrete.OperationClaim", b =>
                 {
-                    b.Navigation("UserOperationClaims");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Core.Entities.Concrete.User", b =>
                 {
-                    b.Navigation("UserOperationClaims");
+                    b.Navigation("Claims");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Cart", b =>

@@ -40,14 +40,16 @@ namespace DataAccessLayer.Concrete.Context
                 .HasForeignKey(p => p.CategoryId);
 
             modelBuilder.Entity<UserOperationClaim>()
-                .HasKey(uop => new {uop.UserId, uop.OperationClaimId });
+                .HasKey(uop => new { uop.UserId, uop.OperationClaimId });
+
             modelBuilder.Entity<UserOperationClaim>()
                 .HasOne(uop => uop.User)
-                .WithMany(op => op.Users)
+                .WithMany(op => op.Claims)
                 .HasForeignKey(uop => uop.UserId);
+
             modelBuilder.Entity<UserOperationClaim>()
                 .HasOne(uop => uop.OperationClaim)
-                .WithMany(u => u.Claims)
+                .WithMany(u => u.Users)
                 .HasForeignKey(uop => uop.OperationClaimId);
         }
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(EtradeContext))]
-    [Migration("20230124193145_mig_2")]
-    partial class mig_2
+    [Migration("20230124202338_mig_1")]
+    partial class mig_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,21 +75,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Core.Entities.Concrete.UserOperationClaim", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OperationClaimId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "OperationClaimId");
-
-                    b.HasIndex("OperationClaimId");
-
-                    b.ToTable("UserOperationClaim");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Cart", b =>
@@ -186,23 +171,19 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Core.Entities.Concrete.UserOperationClaim", b =>
+            modelBuilder.Entity("OperationClaimUser", b =>
                 {
-                    b.HasOne("Core.Entities.Concrete.OperationClaim", "OperationClaim")
-                        .WithMany("Claims")
-                        .HasForeignKey("OperationClaimId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ClaimsId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Core.Entities.Concrete.User", "User")
-                        .WithMany("Users")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
 
-                    b.Navigation("OperationClaim");
+                    b.HasKey("ClaimsId", "UsersId");
 
-                    b.Navigation("User");
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("OperationClaimUser");
                 });
 
             modelBuilder.Entity("Entities.Concrete.CartItem", b =>
@@ -235,14 +216,19 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Core.Entities.Concrete.OperationClaim", b =>
+            modelBuilder.Entity("OperationClaimUser", b =>
                 {
-                    b.Navigation("Claims");
-                });
+                    b.HasOne("Core.Entities.Concrete.OperationClaim", null)
+                        .WithMany()
+                        .HasForeignKey("ClaimsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Core.Entities.Concrete.User", b =>
-                {
-                    b.Navigation("Users");
+                    b.HasOne("Core.Entities.Concrete.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entities.Concrete.Cart", b =>

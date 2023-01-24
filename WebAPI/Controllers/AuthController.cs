@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         public IActionResult Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _authService.UserExists(userForLoginDto.Email);
-            if (!userToCheck.Success)
+            if (userToCheck.Success)
             {
                 return BadRequest(userToCheck.Message);
             }
