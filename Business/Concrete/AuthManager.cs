@@ -11,11 +11,13 @@ namespace Business.Concrete
     {
         IUserService _userService;
         ITokenHelper _tokenHelper;
+       IOperationClaimService _operationClaimService;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IOperationClaimService operationClaimService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _operationClaimService = operationClaimService;
         }
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
@@ -40,6 +42,10 @@ namespace Business.Concrete
         {
             byte[] passwordSalt, passwordHash;
             HashingHelper.CreatePasshordHash(userForRegisterDto.Password, out passwordSalt, out passwordHash);
+            var roles = new HashSet<UserOperationClaim>()
+            {
+                new(){OperationClaimId=_operationClaimService.GetById(2).Data.Id}
+            };
             var user = new User
             {
                 FirstName = userForRegisterDto.FirstName,
@@ -48,10 +54,7 @@ namespace Business.Concrete
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
                 IsStatus = true,
-                Claims = new HashSet<UserOperationClaim>()
-                {
-                    new() {OperationClaimId = 2}
-                }
+                Roles = roles
             };
             _userService.Add(user);
             return new SuccessDataResult<User>("Kayıt Başarılı");

@@ -29,6 +29,7 @@ namespace DataAccessLayer.Concrete.Context
                 .HasOne(ci => ci.Cart)
                 .WithMany(c => c.CartItems)
                 .HasForeignKey(ci => ci.CartId);
+
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Product)
                 .WithMany(p => p.CartItems)
@@ -43,14 +44,14 @@ namespace DataAccessLayer.Concrete.Context
                 .HasKey(uop => new { uop.UserId, uop.OperationClaimId });
 
             modelBuilder.Entity<UserOperationClaim>()
-                .HasOne(uop => uop.User)
-                .WithMany(op => op.Claims)
-                .HasForeignKey(uop => uop.UserId);
+                .HasOne(u => u.User)
+                .WithMany(r => r.Roles)
+                .HasForeignKey(u=>u.UserId);
 
             modelBuilder.Entity<UserOperationClaim>()
-                .HasOne(uop => uop.OperationClaim)
-                .WithMany(u => u.Users)
-                .HasForeignKey(uop => uop.OperationClaimId);
+                .HasOne(r=>r.OperationClaim)
+                .WithMany(u=>u.Users)
+                .HasForeignKey(r=>r.OperationClaimId);
         }
 
     }

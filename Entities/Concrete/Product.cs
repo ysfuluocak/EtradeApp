@@ -17,6 +17,6 @@ namespace Entities.Concrete
         public string Description { get; set; }
         public decimal Price { get; set; }
         public virtual Category Category { get; set; }
-        public ICollection<CartItem> CartItems { get; set; }
+        public ICollection<CartItem>? CartItems { get; set; }
     }
 }

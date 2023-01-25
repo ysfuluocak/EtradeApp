@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class mig_1 : Migration
+    /// <inheritdoc />
+    public partial class mig1 : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -91,24 +93,24 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OperationClaimUser",
+                name: "UserOperationClaim",
                 columns: table => new
                 {
-                    ClaimsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OperationClaimId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationClaimUser", x => new { x.ClaimsId, x.UsersId });
+                    table.PrimaryKey("PK_UserOperationClaim", x => new { x.UserId, x.OperationClaimId });
                     table.ForeignKey(
-                        name: "FK_OperationClaimUser_OperationClaims_ClaimsId",
-                        column: x => x.ClaimsId,
+                        name: "FK_UserOperationClaim_OperationClaims_OperationClaimId",
+                        column: x => x.OperationClaimId,
                         principalTable: "OperationClaims",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OperationClaimUser_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserOperationClaim_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -152,23 +154,24 @@ namespace DataAccessLayer.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperationClaimUser_UsersId",
-                table: "OperationClaimUser",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserOperationClaim_OperationClaimId",
+                table: "UserOperationClaim",
+                column: "OperationClaimId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "OperationClaimUser");
+                name: "UserOperationClaim");
 
             migrationBuilder.DropTable(
                 name: "Carts");
