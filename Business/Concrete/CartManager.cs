@@ -2,6 +2,7 @@
 using Core.Utilities.Results;
 using DataAccessLayer.Abstract;
 using Entities.Concrete;
+using Entities.Dtos.CartDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +20,6 @@ namespace Business.Concrete
             _cartDal = cartDal;
         }
 
-        public IResult Add(Cart cart)
-        {
-            _cartDal.Add(cart);
-            return new SuccessResult();
-        }
-
-        public IResult Delete(Cart cart)
-        {
-            _cartDal.Delete(cart);
-            return new SuccessResult();
-        }
-
         public IDataResult<List<Cart>> GetAll()
         {
             return new SuccessDataResult<List<Cart>>(_cartDal.GetAll());
@@ -38,13 +27,7 @@ namespace Business.Concrete
 
         public IDataResult<Cart> GetById(int id)
         {
-            return new SuccessDataResult<Cart>(_cartDal.Get(c=>c.CartId == id));
-        }
-
-        public IResult Update(Cart cart)
-        {
-            _cartDal.Update(cart);
-            return new SuccessResult();
+            return new SuccessDataResult<Cart>(_cartDal.Get(c => c.CartId == id));
         }
     }
 }

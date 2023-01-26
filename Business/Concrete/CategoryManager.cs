@@ -2,7 +2,7 @@
 using Core.Utilities.Results;
 using DataAccessLayer.Abstract;
 using Entities.Concrete;
-using Entities.Dtos;
+using Entities.Dtos.CategoryDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

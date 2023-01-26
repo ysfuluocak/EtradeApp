@@ -1,6 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
-using Entities.Dtos;
+using Entities.Dtos.ProductDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
