@@ -5,15 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.Dtos
 {
-    public class Cart : IEntity
+    public class CartDetailsDto : IDto
     {
         public int CartId { get; set; }
         public decimal TotalPrice { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public virtual ICollection<CartItem>? CartItems { get; set; }
-
-
     }
 }

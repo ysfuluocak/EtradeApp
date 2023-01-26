@@ -16,5 +16,6 @@ namespace Core.Entities.Concrete
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
         public bool IsStatus { get; set; }
+        public ICollection<UserOperationClaim>? Roles { get; set;}
     }
 }

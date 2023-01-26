@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -30,9 +31,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Category category)
+        public IActionResult Add(CreateCategory createCategory)
         {
-            var result = _categoryService.Add(category);
+            var result = _categoryService.Add(createCategory);
             if (result.Success)
             {
                 return Ok(result);

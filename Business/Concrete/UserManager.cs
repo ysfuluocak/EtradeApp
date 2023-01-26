@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using Core.Utilities.Security.Hashing;
 using DataAccessLayer.Abstract;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +40,12 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string mail)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u=>u.Email == mail));
+            var result = _userDal.Get(u => u.Email == mail);
+            if (result == null)
+            {
+                return new ErrorDataResult<User>();
+            }
+            return new SuccessDataResult<User>(result);
         }
 
         public IDataResult<List<OperationClaim>> GetClaims(User user)
@@ -50,6 +57,20 @@ namespace Business.Concrete
         {
             _userDal.Update(user);
             return new SuccessResult();
+        }
+
+
+        public IDataResult<User> ChangeToPassword(UserForLoginDto userForLoginDto, string newPasssword)
+        {
+            byte[] passwordSalt, passwordHash;
+
+            var user = _userDal.Get(u=>u.Email == userForLoginDto.Email);
+            HashingHelper.CreatePasshordHash(newPasssword, out passwordSalt, out passwordHash);
+            user.PasswordSalt = passwordSalt;
+            user.PasswordHash = passwordHash;
+            _userDal.Update(user);
+            return new SuccessDataResult<User>(user, "Şifre Değiştirildi");
+
         }
     }
 }

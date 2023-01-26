@@ -1,12 +1,7 @@
 ﻿using Core.DataAccessLayer.Abstract;
 using Core.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.DataAccessLayer.Concrete.EntityFramework
 {
@@ -18,9 +13,10 @@ namespace Core.DataAccessLayer.Concrete.EntityFramework
         {
             using (var context = new TContext())
             {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State= EntityState.Added;
-                context.SaveChanges();
+                //var addedEntity = context.Entry(entity);
+                //addedEntity.State = EntityState.Added;
+                 context.Add(entity);
+                 context.SaveChanges();
             }
         }
 

@@ -37,7 +37,7 @@ namespace Business.Concrete
 
         public IDataResult<CartItem> GetById(int id)
         {
-            return new SuccessDataResult<CartItem>(_cartItemDal.Get(c=>c.Id == id));
+            return new SuccessDataResult<CartItem>(_cartItemDal.Get(c=>c.CartItemId == id));
         }
 
         public IResult Update(CartItem cartItem)
