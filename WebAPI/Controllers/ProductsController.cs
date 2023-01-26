@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,19 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _productService.GetAll();
+            var result = _productService.GetDetails();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
+
+       // [Authorize(Roles = "Admin")]
+        [HttpPost("add")]
+        public IActionResult Add(CreateProduct createProduct)
+        {
+            var result = _productService.Add(createProduct);
             if (result.Success)
             {
                 return Ok(result);
@@ -29,11 +42,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("add")]
-        public IActionResult Add(Product product)
+        [HttpPost("update")]
+        public IActionResult Update(CreateProduct createProduct)
         {
-            var result = _productService.Add(product);
+            var result = _productService.Update(createProduct);
             if (result.Success)
             {
                 return Ok(result);

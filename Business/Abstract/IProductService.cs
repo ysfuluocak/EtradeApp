@@ -14,8 +14,8 @@ namespace Business.Abstract
         IDataResult<List<Product>> GetAll(); 
         IDataResult<Product> GetById(int id);
         IDataResult<List<ProductDetailsDto>> GetDetails();
-        IResult Add(Product product); 
-        IResult Update(Product product); 
-        IResult Delete(Product product);
+        IResult Add(CreateProduct createProduct); 
+        IResult Update(CreateProduct createProduct); 
+        IResult Delete(CreateProduct createProduct);
     }
 }

@@ -20,7 +20,7 @@ namespace DataAccessLayer.Concrete.EntityFramework
                 var result = from p in context.Products
                              join c in context.Categories
                              on p.CategoryId equals c.CategoryId
-                             select new ProductDetailsDto { ProductId = p.ProductId, CategoryName = c.Name, Price = p.Price };
+                             select new ProductDetailsDto { ProductId = p.ProductId, CategoryName = c.Name, Price = p.Price, Name=p.Name,Description = p.Description,Stock = p.Stock};
                 return result.ToList();
             }
         }
