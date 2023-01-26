@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.Dtos.CartDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,5 @@ namespace Business.Abstract
     {
         IDataResult<List<Cart>> GetAll();
         IDataResult<Cart> GetById(int id);
-        IResult Add(Cart cart);
-        IResult Update(Cart cart);
-        IResult Delete(Cart cart);
     }
 }

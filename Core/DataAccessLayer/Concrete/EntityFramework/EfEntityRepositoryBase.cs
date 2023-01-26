@@ -50,8 +50,9 @@ namespace Core.DataAccessLayer.Concrete.EntityFramework
         {
             using (var context = new TContext())
             {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
+                //var updatedEntity = context.Entry(entity);
+                //updatedEntity.State = EntityState.Modified;
+                context.Update(entity);
                 context.SaveChanges();
             }
         }

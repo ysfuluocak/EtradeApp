@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Dtos
+namespace Entities.Dtos.CartItemDtos
 {
-    public class CreateCategory : IDto
+    public class UpdateCartItemDto : IDto
     {
-        public int CategoryId { get; set; }
-        public string Name { get; set; }
+        public int CartItemId { get; set; }
+        public int Quantity { get; set; }
     }
 }
