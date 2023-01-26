@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
@@ -42,10 +43,6 @@ namespace Business.Concrete
         {
             byte[] passwordSalt, passwordHash;
             HashingHelper.CreatePasshordHash(userForRegisterDto.Password, out passwordSalt, out passwordHash);
-            var roles = new HashSet<UserOperationClaim>()
-            {
-                new(){OperationClaimId=_operationClaimService.GetById(2).Data.Id}
-            };
             var user = new User
             {
                 FirstName = userForRegisterDto.FirstName,
@@ -53,12 +50,24 @@ namespace Business.Concrete
                 Email = userForRegisterDto.Email,
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
-                IsStatus = true,
-                Roles = roles
+                IsStatus = true
             };
+            user.Roles = SetRoles();
             _userService.Add(user);
             return new SuccessDataResult<User>("Kayıt Başarılı");
 
+        }
+
+        private ICollection<UserOperationClaim> SetRoles()
+        {
+            var memberId = _operationClaimService.GetById((int)Roles.Member).Data.Id;
+
+            var roles = new HashSet<UserOperationClaim>()
+            {
+                new() {OperationClaimId=memberId}
+            };
+            return roles;
+  
         }
 
         public IResult UserExists(string email)
@@ -69,5 +78,7 @@ namespace Business.Concrete
             }
             return new SuccessResult("Kayıtlı kullancı bulunamadı!");
         }
+
+        
     }
 }
