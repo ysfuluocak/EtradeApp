@@ -2,6 +2,7 @@
 using Core.Utilities.Results;
 using DataAccessLayer.Abstract;
 using Entities.Concrete;
+using Entities.Dtos.CartDtos;
 using Entities.Dtos.CartItemDtos;
 using System;
 using System.Collections.Generic;
@@ -14,47 +15,53 @@ namespace Business.Concrete
     public class CartItemManager : ICartItemService
     {
         ICartItemDal _cartItemDal;
-        IProductService _productService;
         ICartService _cartService;
-        public CartItemManager(ICartItemDal cartItemDal,IProductService productService, ICartService cartService)
+        IProductService _productService;
+        public CartItemManager(ICartItemDal cartItemDal, ICartService cartService, IProductService productService)
         {
             _cartItemDal = cartItemDal;
-            _productService = productService;
             _cartService = cartService;
-        }
-
-        public IResult Add(CreateCartItemDto createCartItemDto)
-        {
-            var cartItem = new CartItem()
-            {
-                ProductId = createCartItemDto.ProductId,
-                Quantity = createCartItemDto.Quantity,
-                Cart = new()
-                {
-
-                }
-            };
-
-             _cartItemDal.Add(cartItem);
-            return new SuccessResult();
+            _productService = productService;
         }
 
         public IResult AddToCart(AddToCartDto addToCartDto)
         {
-            var cartItem = _cartItemDal.Get(ci=>ci.CartItemId == addToCartDto.CartItemId);
-            var product = _productService.GetById(cartItem.ProductId);
-            cartItem.Cart = new Cart()
+            if (addToCartDto.CartId == 0)
             {
-                CreatedAt = DateTime.Now,
-                TotalPrice = product.Data.Price * cartItem.Quantity
-            };
-            _cartItemDal.Update(cartItem);
+                var product = _productService.GetById(addToCartDto.ProductId);
+                var cartItem = new CartItem()
+                {
+                    ProductId = addToCartDto.ProductId,
+                    Quantity = addToCartDto.Quantity,
+                    Price = product.Data.Price*addToCartDto.Quantity,
+                    Cart = new Cart()
+                    {
+                        CreatedAt = DateTime.Now,
+                        TotalPrice = addToCartDto.Quantity * product.Data.Price
+                    }
+                };
+                _cartItemDal.Add(cartItem);
+            }
+            else
+            {
+                var cart = _cartService.GetById(addToCartDto.CartId);
+                var product = _productService.GetById(addToCartDto.ProductId);
+                cart.Data.CartItems = new HashSet<CartItem>() {
+                    new CartItem()
+                    {
+                        ProductId = addToCartDto.ProductId,
+                        Quantity = addToCartDto.Quantity,
+                        Price = product.Data.Price*addToCartDto.Quantity
+                    }};
+                cart.Data.TotalPrice += addToCartDto.Quantity * product.Data.Price;
+                _cartService.Update(cart.Data);
+            }
             return new SuccessResult();
         }
 
-        public IResult Delete(CreateCartItemDto createCartItemDto)
+        public IResult Delete(UpdateCartItemDto updateCartItemDto)
         {
-            var cartItem = _cartItemDal.Get(ci=>ci.CartItemId == createCartItemDto.CartItemId);
+            var cartItem = _cartItemDal.Get(ci => ci.CartItemId == updateCartItemDto.CartItemId);
             _cartItemDal.Delete(cartItem);
             return new SuccessResult();
         }
@@ -66,12 +73,12 @@ namespace Business.Concrete
 
         public IDataResult<CartItem> GetById(int id)
         {
-            return new SuccessDataResult<CartItem>(_cartItemDal.Get(c=>c.CartItemId == id));
+            return new SuccessDataResult<CartItem>(_cartItemDal.Get(c => c.CartItemId == id));
         }
 
         public IResult Update(UpdateCartItemDto updateCartItemDto)
         {
-            var cartItem = _cartItemDal.Get(ci=>ci.CartItemId == updateCartItemDto.CartItemId);
+            var cartItem = _cartItemDal.Get(ci => ci.CartItemId == updateCartItemDto.CartItemId);
             cartItem.Quantity = updateCartItemDto.Quantity;
             _cartItemDal.Update(cartItem);
             return new SuccessResult();

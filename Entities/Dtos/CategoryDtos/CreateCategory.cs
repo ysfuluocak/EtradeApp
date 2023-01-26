@@ -10,6 +10,6 @@ namespace Entities.Dtos.CategoryDtos
     public class CreateCategory : IDto
     {
         public int CategoryId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

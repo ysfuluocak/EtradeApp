@@ -10,9 +10,10 @@ namespace Entities.Dtos.CartDtos
     public class CartDetailsDto : IDto
     {
         public int CartId { get; set; }
-        public int ProductName { get; set; }
+        public string? ProductName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string? CategoryName { get; set; }
+        public decimal CartItemPrice { get; set; }
         public decimal TotalPrice { get; set; }
-        public string CategoryName { get; set; }
     }
 }

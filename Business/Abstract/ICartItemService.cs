@@ -13,9 +13,8 @@ namespace Business.Abstract
     {
         IDataResult<List<CartItem>> GetAll();
         IDataResult<CartItem> GetById(int id);
-        IResult Add(CreateCartItemDto createCartItemDto);
         IResult Update(UpdateCartItemDto updateCartItemDto);
-        IResult Delete(CreateCartItemDto createCartItemDto);
+        IResult Delete(UpdateCartItemDto updateCartItemDto);
         IResult AddToCart(AddToCartDto addToCartDto);
     }
 }

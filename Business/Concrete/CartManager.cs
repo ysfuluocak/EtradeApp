@@ -20,6 +20,12 @@ namespace Business.Concrete
             _cartDal = cartDal;
         }
 
+        public IResult Add(Cart cart)
+        {
+            _cartDal.Add(cart);
+            return new SuccessResult();
+        }
+
         public IDataResult<List<Cart>> GetAll()
         {
             return new SuccessDataResult<List<Cart>>(_cartDal.GetAll());
@@ -28,6 +34,17 @@ namespace Business.Concrete
         public IDataResult<Cart> GetById(int id)
         {
             return new SuccessDataResult<Cart>(_cartDal.Get(c => c.CartId == id));
+        }
+
+        public IDataResult<List<CartDetailsDto>> GetDetails()
+        {
+            return new SuccessDataResult<List<CartDetailsDto>>(_cartDal.GetDetailsDto());
+        }
+
+        public IResult Update(Cart cart)
+        {
+            _cartDal.Update(cart);
+            return new SuccessResult();
         }
     }
 }

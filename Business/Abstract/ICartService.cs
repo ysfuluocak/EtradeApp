@@ -12,6 +12,9 @@ namespace Business.Abstract
     public interface ICartService
     {
         IDataResult<List<Cart>> GetAll();
+        IDataResult<List<CartDetailsDto>> GetDetails();
         IDataResult<Cart> GetById(int id);
+        IResult Add(Cart cart);
+        IResult Update(Cart cart);
     }
 }

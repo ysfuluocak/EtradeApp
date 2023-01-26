@@ -21,6 +21,7 @@ namespace WebAPI.Controllers
             _cartItemService = cartItemService;
         }
 
+
         [HttpGet("getallcart")]
         public IActionResult GetAllCart()
         {
@@ -32,10 +33,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcartbyid")]
-        public IActionResult GetCart(int Id)
+        [HttpGet("getallcartdto")]
+        public IActionResult GetAllCartDto()
         {
-            var result = _cartService.GetById(Id);
+            var result = _cartService.GetDetails();
             if (result.Success)
             {
                 return Ok(result);
@@ -43,10 +44,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("addcartitem")]
-        public IActionResult Add(CreateCartItemDto createCartItemDto)
+        [HttpGet("getcartbyid")]
+        public IActionResult GetCart(int Id)
         {
-            var result = _cartItemService.Add(createCartItemDto);
+            var result = _cartService.GetById(Id);
             if (result.Success)
             {
                 return Ok(result);
@@ -66,9 +67,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deletecartitem")]
-        public IActionResult Delete(CreateCartItemDto createCartItemDto)
+        public IActionResult Delete(UpdateCartItemDto updateCartItemDto)
         {
-            var result = _cartItemService.Delete(createCartItemDto);
+            var result = _cartItemService.Delete(updateCartItemDto);
             if (result.Success)
             {
                 return Ok(result);

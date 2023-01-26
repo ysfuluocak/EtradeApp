@@ -11,5 +11,6 @@ namespace Entities.Dtos.CartItemDtos
     {
         public int CartItemId { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
     }
 }
