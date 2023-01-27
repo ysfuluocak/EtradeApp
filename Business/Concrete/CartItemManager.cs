@@ -26,9 +26,10 @@ namespace Business.Concrete
 
         public IResult AddToCart(AddToCartDto addToCartDto)
         {
+            var product = _productService.GetById(addToCartDto.ProductId);
             if (addToCartDto.CartId == 0)
             {
-                var product = _productService.GetById(addToCartDto.ProductId);
+                
                 var cartItem = new CartItem()
                 {
                     ProductId = addToCartDto.ProductId,
@@ -45,7 +46,6 @@ namespace Business.Concrete
             else
             {
                 var cart = _cartService.GetById(addToCartDto.CartId);
-                var product = _productService.GetById(addToCartDto.ProductId);
                 var cartItems = _cartService.GetCartItemsByCartId(addToCartDto.CartId);
                 var cartItem = cartItems.Data.Find(ci=>ci.ProductId == addToCartDto.ProductId);
                 if (cartItem != null)
