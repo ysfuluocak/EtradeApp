@@ -46,15 +46,27 @@ namespace Business.Concrete
             {
                 var cart = _cartService.GetById(addToCartDto.CartId);
                 var product = _productService.GetById(addToCartDto.ProductId);
-                cart.Data.CartItems = new HashSet<CartItem>() {
+                var cartItems = _cartService.GetCartItemsByCartId(addToCartDto.CartId);
+                var cartItem = cartItems.Data.Find(ci=>ci.ProductId == addToCartDto.ProductId);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity += addToCartDto.Quantity;    
+                    cart.Data.TotalPrice += addToCartDto.Quantity*product.Data.Price;
+                    _cartService.Update(cart.Data);
+                    _cartItemDal.Update(cartItem);
+                }
+                else
+                {
+                    cart.Data.CartItems = new HashSet<CartItem>() {
                     new CartItem()
                     {
                         ProductId = addToCartDto.ProductId,
                         Quantity = addToCartDto.Quantity,
                         Price = product.Data.Price*addToCartDto.Quantity
                     }};
-                cart.Data.TotalPrice += addToCartDto.Quantity * product.Data.Price;
-                _cartService.Update(cart.Data);
+                    cart.Data.TotalPrice += addToCartDto.Quantity * product.Data.Price;
+                    _cartService.Update(cart.Data);
+                }
             }
             return new SuccessResult();
         }
@@ -79,7 +91,7 @@ namespace Business.Concrete
         public IResult Update(UpdateCartItemDto updateCartItemDto)
         {
             var cartItem = _cartItemDal.Get(ci => ci.CartItemId == updateCartItemDto.CartItemId);
-            cartItem.Quantity = updateCartItemDto.Quantity;
+            cartItem.Quantity += updateCartItemDto.Quantity;
             _cartItemDal.Update(cartItem);
             return new SuccessResult();
         }

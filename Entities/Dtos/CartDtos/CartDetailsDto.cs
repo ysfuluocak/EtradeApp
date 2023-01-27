@@ -13,6 +13,7 @@ namespace Entities.Dtos.CartDtos
         public string? ProductName { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? CategoryName { get; set; }
+        public int Quantity { get; set; }
         public decimal CartItemPrice { get; set; }
         public decimal TotalPrice { get; set; }
     }

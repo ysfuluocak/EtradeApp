@@ -36,6 +36,11 @@ namespace Business.Concrete
             return new SuccessDataResult<Cart>(_cartDal.Get(c => c.CartId == id));
         }
 
+        public IDataResult<List<CartItem>> GetCartItemsByCartId(int id)
+        {
+            return new SuccessDataResult<List<CartItem>>(_cartDal.GetCartItemsByCartId(id));
+        }
+
         public IDataResult<List<CartDetailsDto>> GetDetails()
         {
             return new SuccessDataResult<List<CartDetailsDto>>(_cartDal.GetDetailsDto());

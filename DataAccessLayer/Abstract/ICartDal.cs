@@ -12,5 +12,6 @@ namespace DataAccessLayer.Abstract
     public interface ICartDal : IEntityRepositoryBase<Cart>
     {
         List<CartDetailsDto> GetDetailsDto();
+        List<CartItem> GetCartItemsByCartId(int id);
     }
 }

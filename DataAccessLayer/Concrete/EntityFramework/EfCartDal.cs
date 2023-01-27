@@ -14,6 +14,19 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCartDal : EfEntityRepositoryBase<Cart, EtradeContext>, ICartDal
     {
+        public List<CartItem> GetCartItemsByCartId(int id)
+        {
+            using (var context = new EtradeContext())
+            {
+                var result = from c in context.Carts
+                             join ci in context.CartItems
+                             on c.CartId equals ci.CartId
+                             where ci.CartId == id
+                             select ci;
+               return result.ToList();
+            }
+        }
+
         public List<CartDetailsDto> GetDetailsDto()
         {
             using (var context = new EtradeContext())
@@ -21,7 +34,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from c in context.Carts
                              join ci in context.CartItems
                              on c.CartId equals ci.CartId
-                             select new CartDetailsDto { CartId = c.CartId, ProductName = ci.Product.Name, CategoryName = ci.Product.Category.Name, CreatedAt = c.CreatedAt,CartItemPrice = ci.Price, TotalPrice = c.TotalPrice };
+                             select new CartDetailsDto { CartId = c.CartId, ProductName = ci.Product.Name, CategoryName = ci.Product.Category.Name, CreatedAt = c.CreatedAt,CartItemPrice = ci.Price, TotalPrice = c.TotalPrice,Quantity=ci.Quantity };
                 return result.ToList();
             }
         }
